@@ -1,0 +1,3 @@
+D:/code/c/oop_c/UserAndProduct_Test/cmake-build-debug/CMakeFiles/UserAndProduct_Test.dir
+D:/code/c/oop_c/UserAndProduct_Test/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/code/c/oop_c/UserAndProduct_Test/cmake-build-debug/CMakeFiles/rebuild_cache.dir

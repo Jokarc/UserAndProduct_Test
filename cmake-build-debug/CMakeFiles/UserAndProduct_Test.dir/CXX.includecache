@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/code/c/oop_c/UserAndProduct_Test/main.cpp
+iostream
+-
+User.h
+D:/code/c/oop_c/UserAndProduct_Test/User.h
+Customer.h
+D:/code/c/oop_c/UserAndProduct_Test/Customer.h
+Merchant.h
+D:/code/c/oop_c/UserAndProduct_Test/Merchant.h
+Process.h
+D:/code/c/oop_c/UserAndProduct_Test/Process.h
+

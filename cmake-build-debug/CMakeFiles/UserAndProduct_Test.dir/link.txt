@@ -1,0 +1,3 @@
+"D:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\UserAndProduct_Test.dir/objects.a
+D:\code\mingw64\bin\ar.exe cr CMakeFiles\UserAndProduct_Test.dir/objects.a @CMakeFiles\UserAndProduct_Test.dir\objects1.rsp
+D:\code\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\UserAndProduct_Test.dir/objects.a -Wl,--no-whole-archive -o UserAndProduct_Test.exe -Wl,--out-implib,libUserAndProduct_Test.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\UserAndProduct_Test.dir\linklibs.rsp
