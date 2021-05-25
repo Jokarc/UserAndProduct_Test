@@ -216,6 +216,7 @@ int User::UserChangePswd() {
                 int op = Operation.checkOp();
                 if (op == -1) {
                     cout << "输入不合法，请输入数字" << endl;
+                    continue;
                 }
                 if (op == 2) break;
                 string s; getchar();
@@ -231,6 +232,7 @@ int User::UserChangePswd() {
                         int op2 = Operation.checkOp();
                         if (op2 == -1) {
                             cout << "输入不合法，请输入数字" << endl;
+                            continue;
                         }
                         if (op2 == 2) break;
                         string nPswd; getchar();

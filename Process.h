@@ -91,6 +91,7 @@ void Process::Register(User *CurrentUser) {
     cout << "2：注册为商家" << endl;
     cout << "用户名格式要求：以字母开头，仅能由字母，数字以及下划线构成，至少4位" << endl;
     cout << "密码格式要求：同时有字母以及数字，至少6位，不能有空格" << endl;
+    cout << "*----------------------*" << endl;
     //int op; cin >> op;
     int op = Operation.checkOp();
     if (op == -1) {
@@ -167,6 +168,7 @@ int Process::Login(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
     while (1) {
         cin >> name;
         cin >> word;
+        getchar();
         int flag = UserLogin(CurrentUser, name, word);
         Logged = flag;
         if (flag == 1) {
@@ -196,7 +198,7 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
     while (1) {
         if (!Logged) {
             PrintOpList_1(CurrentUser);
-            cout << 1 << endl;
+
             //scanf ("%d", &op);
             int op = Operation.checkOp();
             if (op == -1) {

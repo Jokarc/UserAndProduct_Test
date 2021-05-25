@@ -32,9 +32,6 @@ public:
 int BasicOp::checkOp() {
     string s;
     getline(cin, s);
-    cout << s << endl;
-    getline(cin, s);
-    getline(cin, s);
     if (s.length() > 1) return -1;
     if (!isdigit(s[0])) return -1;
     return s[0]-'0';
