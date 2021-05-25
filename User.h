@@ -116,6 +116,16 @@ int User::UserRegister(string usrname, string password, string usrtype) {
         cout << "UserName Exists." << endl;
         return 0;
     }
+    //如果类型为商家，为其创建商品信息文件
+    if (usrtype[0] == 'M') {
+        char productFileName[40]="../Data/ProductData/";
+        char UserName[20];
+        for (int i = 0; i < usrname.length(); i++) UserName[i] = usrname[i];
+        strcat(productFileName,UserName);
+        strcat(productFileName,"_Products.txt");
+        FILE *fp; fp = fopen(productFileName,"a");
+        fclose(fp);
+    }
     FileOut << usrname << endl;
     FileOut << password << endl;
     FileOut << usrtype << endl;

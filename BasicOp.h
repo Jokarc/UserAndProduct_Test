@@ -18,10 +18,24 @@ public:
     int checkOp();
     bool checkPswd(string s);
     bool checkName(string s);
+    bool checkInt(string s);
     bool checkDouble(string s);
     double Converse(string s);
     string numToStr(double num);
+    void StrCat(char *chs, string s);
 };
+/**********************************************************
+函数：StrCat
+形参：char *chs，string s
+类型：void
+作用：将string添加至chs后
+返回：
+**********************************************************/
+void BasicOp::StrCat(char *chs, string s){
+    char temp[20];
+    for (int i = 0; i < s.length(); i++) temp[i] = s[i];
+    strcat(chs,temp);
+}
 /**********************************************************
 函数：checkOp
 形参：string s
@@ -75,6 +89,18 @@ bool BasicOp::checkName(string s) {
         }
     }
     return flag;
+}
+/**********************************************************
+函数：checkInt
+形参：string s
+类型：bool
+作用：判断一个字符串是否表示为一个非负整数
+返回：表示为合法返回true
+**********************************************************/
+bool BasicOp::checkInt(string s) {
+    for (int i = 0; i < s.length(); i++)
+        if (!isdigit(s[i])) return 0;
+    return 1;
 }
 /**********************************************************
 函数：checkDouble

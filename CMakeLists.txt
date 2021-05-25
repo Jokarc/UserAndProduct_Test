@@ -3,4 +3,4 @@ project(UserAndProduct_Test)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(UserAndProduct_Test main.cpp User.h Process.h BasicOp.h Customer.h Merchant.h)
+add_executable(UserAndProduct_Test main.cpp User.h Process.h BasicOp.h Customer.h Merchant.h Product.h)

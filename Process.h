@@ -6,6 +6,7 @@
 #define USERANDPRODUCT_TEST_PROCESS_H
 #include <string>
 #include "BasicOp.h"
+#include "Product.h"
 using std::string;
 
 class Process {
@@ -99,7 +100,8 @@ void Process::Register(User *CurrentUser) {
     }
     if (op != 1 && op != 2) return ;
     cout << "请分行输入用户名及密码" << endl;
-    string name, word; getchar();
+    string name, word;
+    //getchar();
     while (1) {
         getline(cin, name);
         getline(cin, word);

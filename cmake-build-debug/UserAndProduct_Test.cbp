@@ -92,6 +92,9 @@
 		<Unit filename="D:/code/c/oop_c/UserAndProduct_Test/Process.h">
 			<Option target="UserAndProduct_Test"/>
 		</Unit>
+		<Unit filename="D:/code/c/oop_c/UserAndProduct_Test/Product.h">
+			<Option target="UserAndProduct_Test"/>
+		</Unit>
 		<Unit filename="D:/code/c/oop_c/UserAndProduct_Test/User.h">
 			<Option target="UserAndProduct_Test"/>
 		</Unit>
