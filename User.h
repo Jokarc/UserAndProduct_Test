@@ -213,7 +213,10 @@ int User::UserChangePswd() {
                 cout << "1：输入原密码" << endl;
                 cout << "2：不改了" << endl;
                 cout << "*----------------------*" << endl;
-                int op = 0; cin >> op;
+                int op = Operation.checkOp();
+                if (op == -1) {
+                    cout << "输入不合法，请输入数字" << endl;
+                }
                 if (op == 2) break;
                 string s; getchar();
                 getline(cin, s);
@@ -225,7 +228,10 @@ int User::UserChangePswd() {
                         cout << "1：输入新密码" << endl;
                         cout << "2：不改了" << endl;
                         cout << "*----------------------*" << endl;
-                        int op2 = 0; cin >> op2;
+                        int op2 = Operation.checkOp();
+                        if (op2 == -1) {
+                            cout << "输入不合法，请输入数字" << endl;
+                        }
                         if (op2 == 2) break;
                         string nPswd; getchar();
                         getline(cin, nPswd);

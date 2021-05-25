@@ -91,7 +91,11 @@ void Process::Register(User *CurrentUser) {
     cout << "2：注册为商家" << endl;
     cout << "用户名格式要求：以字母开头，仅能由字母，数字以及下划线构成，至少4位" << endl;
     cout << "密码格式要求：同时有字母以及数字，至少6位，不能有空格" << endl;
-    int op; cin >> op;
+    //int op; cin >> op;
+    int op = Operation.checkOp();
+    if (op == -1) {
+        cout << "输入不合法，请输入数字" << endl;
+    }
     if (op != 1 && op != 2) return ;
     cout << "请分行输入用户名及密码" << endl;
     string name, word; getchar();
@@ -188,11 +192,16 @@ int Process::Login(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
 返回：
 **********************************************************/
 void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant) {
-    int op = 0;
+    //int op = 0;
     while (1) {
         if (!Logged) {
             PrintOpList_1(CurrentUser);
-            scanf ("%d", &op);
+            cout << 1 << endl;
+            //scanf ("%d", &op);
+            int op = Operation.checkOp();
+            if (op == -1) {
+                cout << "输入不合法，请输入数字" << endl;
+            }
             if (op == 1) {
                 int Type = Login(CurrentUser, Logged, CurrentCustomer, CurrentMerchant);
                 if (Type == 1) CurrentUser = &CurrentCustomer;
@@ -202,7 +211,10 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
         } else {
             if (Logged == 1) PrintOpList_2(CurrentUser);
             if (Logged == 2) PrintOpList_3(CurrentUser);
-            scanf ("%d", &op);
+            int op = Operation.checkOp();
+            if (op == -1) {
+                cout << "输入不合法，请输入数字" << endl;
+            }
             if (op == 8) break;
             if (op == 1) CurrentUser->UserLogOut(Logged);
             if (op == 2) cout << "当前余额：" << CurrentUser -> getAccountBalance() << endl;

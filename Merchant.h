@@ -38,5 +38,6 @@ void Merchant::ManageProduct() {
     cout << "2：添加库存" << endl;
     cout << "3：商品打折" << endl;
     cout << "*----------------------*" << endl;
+    int op;
 }
 #endif //USERANDPRODUCT_TEST_MERCHANT_H

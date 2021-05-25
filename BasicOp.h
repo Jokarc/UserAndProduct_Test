@@ -4,20 +4,41 @@
 
 #ifndef USERANDPRODUCT_TEST_BASICOP_H
 #define USERANDPRODUCT_TEST_BASICOP_H
-
+#include <iostream>
 #include <string>
 using std::string;
+using std::cin;
+using std::cout;
+using std::endl;
 
 class BasicOp {
 public:
     BasicOp(){}
     ~BasicOp(){}
+    int checkOp();
     bool checkPswd(string s);
     bool checkName(string s);
     bool checkDouble(string s);
     double Converse(string s);
     string numToStr(double num);
 };
+/**********************************************************
+函数：checkOp
+形参：string s
+类型：int
+作用：判断输入Op的合法
+返回：合法返回相应数字，不合法返回-1
+**********************************************************/
+int BasicOp::checkOp() {
+    string s;
+    getline(cin, s);
+    cout << s << endl;
+    getline(cin, s);
+    getline(cin, s);
+    if (s.length() > 1) return -1;
+    if (!isdigit(s[0])) return -1;
+    return s[0]-'0';
+}
 /**********************************************************
 函数：checkPswd
 形参：string s
