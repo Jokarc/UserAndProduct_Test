@@ -21,6 +21,7 @@ public:
     void PrintOpList_2(User *CurrentUser);
     void PrintOpList_3(User *CurrentUser);
     void Register(User *CurrentUser);
+    void OutProduct(string,string,string,string,string,string);
     void work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant);
     void ShowProductForGuest(User *CurrentUser, int &Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant);
     int Login(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant);
@@ -225,6 +226,7 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
                 if (Type == 2) CurrentUser = &CurrentMerchant;
             }
             if (op == 2) Register(CurrentUser);
+            if (op == 3) TraverseProductFile();
         } else {
             if (Logged == 1) PrintOpList_2(CurrentUser);
             if (Logged == 2) PrintOpList_3(CurrentUser);
@@ -235,7 +237,7 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
             if (op == 8) break;
             if (op == 1) CurrentUser->UserLogOut(Logged);
             if (op == 2) cout << "当前余额：" << CurrentUser -> getAccountBalance() << endl;
-            if (op == 3) ;
+            if (op == 3) TraverseProductFile();
             if (op == 4) cout << "您的用户名为：" << CurrentUser -> getUserName() << endl;
             if (op == 5) {
                 if (Logged == 1) CurrentCustomer.getUserType();
@@ -264,6 +266,24 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
     }
 }
 /**********************************************************
+函数：OutProduct
+形参：
+类型：void
+作用：输出商品信息
+返回：
+**********************************************************/
+void Process::OutProduct(string name, string price, string num, string dis, string descrip, string Mer) {
+    cout << "商品名称：" << name << endl;
+    cout << "商品定价：" << price << endl;
+    cout << "商品库存：" << num << endl;
+    double k = Operation.Converse(dis);
+    double koff = 1-k;
+    cout << "折扣力度：减" << koff * 100 << "%" << endl;
+    cout << "商品描述：" << descrip << endl;
+    cout << "在售商家：" << Mer << endl;
+    cout << "*------------------------*" << endl;
+}
+/**********************************************************
 函数：TraverseProductFile
 形参：
 类型：void
@@ -277,53 +297,62 @@ void Process::TraverseProductFile() {
     cout << "3：查看食物类商品" << endl;
     cout << "4：以名称查看商品" << endl;
     cout << "*----------------------*" << endl;
-    string name;
+    string namefind;
     int op = Operation.checkOp();
     if (op == -1) {
         cout << "输入不合法" << endl;
         return ;
     }
-    if (op == 4) getline(cin, name);
+    cout << "*----------------------*" << endl;
+    if (op == 4) {
+        cout << "请输入要查找的商品名称" << endl;
+        getline(cin, namefind);
+    }
+    int namefindok = 0;
     string book = "Book";
     string clothes = "Clothes";
     string food = "Food";
     string inPath = "../Data/ProductData/*.txt";
+    //***********
     long handle;
     struct _finddata_t fileinfo;
     handle = _findfirst(inPath.c_str(), &fileinfo);
-    if (handle == -1)
-        return ;
+    if (handle == -1) return ;
     do {
-        ifstream FileIn(fileinfo.name, ios::in);
+        char filename[100] = "../Data/ProductData/";
+        strcat(filename, fileinfo.name);
+        ifstream FileIn(filename, ios::in);
         if (!FileIn) {
-            cout << "can't find " << fileinfo.name << " when TraverseProductFile." << endl;
-            return ;
+            cout << "can't find " << filename << " when TraverseProductFile." << endl;
+            continue;
         }
-        int line = -4, num = 0;
-        string temp, temp2, temp3, temp4, temp5, temp6;
-        getline(FileIn, temp);
-        while (getline(FileIn, temp)) {
-            getline(FileIn, temp2);
-            getline(FileIn, temp3);
-            getline(FileIn, temp4);
-            getline(FileIn, temp5);
-            getline(FileIn, temp6);
+        int line = -4;
+        string name, kind, price, num, dis, descrip,Mer = "";
+        for (int i = 0; fileinfo.name[i] != '.'; i++) Mer += fileinfo.name[i];
+        getline(FileIn, name);
+        while (getline(FileIn, name)) {
+            getline(FileIn, kind);
+            getline(FileIn, price);
+            getline(FileIn, num);
+            getline(FileIn, dis);
+            getline(FileIn, descrip);
             line += 6;
-            if (name == temp && op == 4){
-                num++;
-                cout << "商品名称：" << temp << endl;
-                cout << "商品定价：" << temp3 << endl;
-                cout << "商品库存：" << temp4 << endl;
-                double k = Operation.Converse(temp5);
-                double koff = 1-k;
-                cout << "折扣力度：减" << koff * 100 << "%" << endl;
-                cout << "商品描述：" << temp6 << endl;
-                cout << "*------------------------*" << endl;
-                return ;
+            if (op == 1 && kind == book)
+                OutProduct(name,price,num,dis,descrip,Mer);
+            if (op == 2 && kind == clothes)
+                OutProduct(name,price,num,dis,descrip,Mer);
+            if (op == 3 && kind == food)
+                OutProduct(name,price,num,dis,descrip,Mer);
+            if (name == namefind && op == 4){
+                namefindok = 1;
+                OutProduct(name,price,num,dis,descrip,Mer);
+                break;
             }
         }
-
+        FileIn.close();
     } while (!_findnext(handle, &fileinfo));
+    //*************
+    if (op == 4 && !namefindok) cout << "您要找的商品不存在" << endl;
     _findclose(handle);
 }
 #endif //USERANDPRODUCT_TEST_PROCESS_H
