@@ -103,6 +103,7 @@ void Process::Register(User *CurrentUser) {
     string name, word;
     //getchar();
     while (1) {
+
         getline(cin, name);
         getline(cin, word);
         if (CurrentUser->UserRegister(name, word, op == 1 ? (cus) : (mer)))

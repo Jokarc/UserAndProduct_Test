@@ -32,8 +32,10 @@ public:
 返回：
 **********************************************************/
 void BasicOp::StrCat(char *chs, string s){
-    char temp[20];
+    char temp[20] = "";
     for (int i = 0; i < s.length(); i++) temp[i] = s[i];
+//    cout << "string:" << s << endl;
+//    cout << temp << endl;
     strcat(chs,temp);
 }
 /**********************************************************

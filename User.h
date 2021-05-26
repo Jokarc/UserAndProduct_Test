@@ -86,6 +86,7 @@ int User::UserLogOut(int &Logged) {
 返回：成功1，失败0
 **********************************************************/
 int User::UserRegister(string usrname, string password, string usrtype) {
+
     if (!Operation.checkName(usrname)) {
         cout << "用户名不合法，请重试" << endl;
         return 0;
@@ -111,6 +112,7 @@ int User::UserRegister(string usrname, string password, string usrtype) {
         getline(FileIn, temp);
         getline(FileIn, temp);
     }
+
     FileIn.close();
     if (UserNameExist){
         cout << "UserName Exists." << endl;
@@ -118,12 +120,17 @@ int User::UserRegister(string usrname, string password, string usrtype) {
     }
     //如果类型为商家，为其创建商品信息文件
     if (usrtype[0] == 'M') {
-        char productFileName[40]="../Data/ProductData/";
+//        cout << "product" << endl;
+        char productFileName[80]="../Data/ProductData/";
         char UserName[20];
         for (int i = 0; i < usrname.length(); i++) UserName[i] = usrname[i];
         strcat(productFileName,UserName);
         strcat(productFileName,"_Products.txt");
-        FILE *fp; fp = fopen(productFileName,"a");
+        FILE *fp = NULL;
+        //fp = fopen(productFileName,"a");
+        fp = fopen(productFileName,"w");
+        if (!fp) fp = fopen(productFileName,"w");
+        //fprintf(fp, "num of products：0");
         fclose(fp);
     }
     FileOut << usrname << endl;
