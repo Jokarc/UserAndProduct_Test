@@ -6,6 +6,7 @@
 #define USERANDPRODUCT_TEST_MERCHANT_H
 #include <fstream>
 #include "User.h"
+#include "Product.h"
 using std::ifstream;
 class Merchant : public User {
 private:
@@ -18,8 +19,12 @@ public:
         PassWord = b;
         UserType = 1;
     }
+    void ShowProduct();
     void ManageProduct();
+    void ShowThisKindProduct(string kind);
+    void ShowThisNameProduct(string name);
     int AddNewProduct();
+    int AddProductNum();
     int FindProduct(char *, string);
     virtual void getUserType();
 };
@@ -31,7 +36,7 @@ void Merchant::getUserType() {
 函数：FindProduct
 形参：
 类型：void
-作用：寻找商品，//名称，价格，数量，打折力度，描述
+作用：寻找商品，//名称，种类，价格，数量，打折力度，描述
 返回：
 **********************************************************/
 int Merchant::FindProduct(char *FileName, string ProductName) {
@@ -40,21 +45,22 @@ int Merchant::FindProduct(char *FileName, string ProductName) {
         cout << "can't find " << FileName << " when FindProduct." << endl;
         return -1;
     }
-    string temp, temp2, temp3, temp4, temp5;
+    string temp, temp2, temp3, temp4, temp5, temp6;
     getline(FileIn, temp);
     while (getline(FileIn, temp)) {
         getline(FileIn, temp2);
         getline(FileIn, temp3);
         getline(FileIn, temp4);
         getline(FileIn, temp5);
+        getline(FileIn, temp6);
         if (ProductName == temp){
-            cout << "您的该商品已存在，请勿重复添加" << endl;
-            return -1;
+            return -1;//商品存在
         }
     }
     FileIn.close();
-    return 1;
+    return 1;//商品不存在
 }
+
 /**********************************************************
 函数：AddProduct
 形参：
@@ -75,7 +81,7 @@ int Merchant::AddNewProduct() {
     string s;
     getline(FileIn, s);
     if (s.length() < 1 || !isdigit(s[0])) {
-        cout << "kkk" << endl;
+//        cout << "kkk" << endl;
         FileOut << 0 << endl;
     }
     double tempPrice;
@@ -84,8 +90,10 @@ int Merchant::AddNewProduct() {
     string ProductName;
     cout << "请输入商品名称" << endl;
     getline(cin, ProductName);
-    if (FindProduct(FileName,ProductName) == -1)
+    if (FindProduct(FileName,ProductName) == -1) {
+        cout << "您的该商品已存在，请勿重复添加" << endl;
         return 0;
+    }
     string temp;
     cout << "请输入商品价格，浮点数，支持三位精度" << endl;
     getline(cin, temp);
@@ -103,8 +111,20 @@ int Merchant::AddNewProduct() {
     tempNum = Operation.Converse(temp);
     cout << "请输入商品描述" << endl;
     getline(cin, temp);
+    cout << "请选择商品种类" << endl;
+    cout << "1：书本" << endl;
+    cout << "2：衣服" << endl;
+    cout << "3：食品" << endl;
+    int op = Operation.checkOp();
+    if (op == -1) {
+        cout << "输入不合法" << endl;
+        return 0;
+    }
     tempDescription = temp;
     FileOut << ProductName << endl;
+    if (op == 1) FileOut << "Book" << endl;
+    if (op == 2) FileOut << "Clothes" << endl;
+    if (op == 3) FileOut << "Food" << endl;
     FileOut << tempPrice << endl;
     FileOut << tempNum << endl;
     FileOut << 1 << endl;
@@ -112,10 +132,182 @@ int Merchant::AddNewProduct() {
     FileIn.close();
     ifstream FileIn2(FileName, ios::in);
     getline(FileIn2, s);
-    ModifyLineData(FileName, 1, Operation.numToStr(int(Operation.Converse(s) + 1)));
+    Operation.ModifyLineData(FileName, 1, to_string(int(Operation.Converse(s) + 1)));
     FileIn2.close();
     FileOut.close();
     return 0;
+}
+/**********************************************************
+函数：AddProductNum
+形参：
+类型：int
+作用：添加商品库存
+返回：返回0，商品不存在，返回-1，无文件
+**********************************************************/
+int Merchant::AddProductNum() {
+    cout << "正在添加已存在商品库存，请输入要添加的商品名称" << endl;
+    string s; getline(cin, s);
+    char FileName[50] = "../Data/ProductData/";
+    Operation.StrCat(FileName, getUserName());
+    strcat(FileName, "_Products.txt");
+    if (FindProduct(FileName, s) == 1) {
+        cout << "商品不存在，请返回选择添加新品" << endl;
+        return 0;
+    }
+    ifstream FileIn(FileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << FileName << " when AddProductNum." << endl;
+        return -1;
+    }
+    int line = -1; bool flag = false;
+    string temp, temp2, temp3, temp4, temp5, temp6;
+    getline(FileIn, temp);
+    while (getline(FileIn, temp)) {
+        getline(FileIn, temp2);
+        getline(FileIn, temp3);
+        getline(FileIn, temp4);
+        getline(FileIn, temp5);
+        getline(FileIn, temp6);
+        line += 6;
+        if (s == temp){
+            flag = true;
+            break;
+        }
+    }
+    if (!flag) {
+        cout << "Find Error." << endl;
+    } else {
+        int num = Operation.Converse(temp4);
+        cout << "当前数量为：" << num << endl;
+        cout << "请输入添加数量" << endl;
+        string s;
+        getline(cin, s);
+        int x = Operation.checkInt(s);
+        if (!x) {
+            cout << "输入不合法" << endl;
+            return -1;
+        }
+        int op = (int)Operation.Converse(s) + num;
+        Operation.ModifyLineData(FileName, line, to_string(op));
+    }
+    FileIn.close();
+    return 1;
+}
+/**********************************************************
+函数：ShowThisKindProduct
+形参：string kind
+类型：void
+作用：展示kind类商品
+返回：
+**********************************************************/
+void Merchant::ShowThisKindProduct(string kind) {
+    char FileName[50] = "../Data/ProductData/";
+    Operation.StrCat(FileName, getUserName());
+    strcat(FileName, "_Products.txt");
+    ifstream FileIn(FileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << FileName << " when FindProduct." << endl;
+        return ;
+    }
+    int line = -4, num = 0;
+    string temp, temp2, temp3, temp4, temp5, temp6;
+    getline(FileIn, temp);
+    while (getline(FileIn, temp)) {
+        getline(FileIn, temp2);
+        getline(FileIn, temp3);
+        getline(FileIn, temp4);
+        getline(FileIn, temp5);
+        getline(FileIn, temp6);
+        line += 6;
+        if (kind == temp2){
+            num++;
+            cout << "商品名称：" << temp << endl;
+            cout << "商品定价：" << temp3 << endl;
+            cout << "商品库存：" << temp4 << endl;
+            double k = Operation.Converse(temp5);
+            double koff = 1-k;
+            cout << "折扣力度：减" << koff * 100 << "%" << endl;
+            cout << "商品描述：" << temp6 << endl;
+            cout << "*------------------------*" << endl;
+        }
+    }
+    cout << "您共有" << kind << "类商品" << num << "种" << endl;
+    FileIn.close();
+}
+/**********************************************************
+函数：ShowThisNameProduct
+形参：string Name
+类型：void
+作用：展示名称Name商品
+返回：
+**********************************************************/
+void Merchant::ShowThisNameProduct(string name) {
+    char FileName[50] = "../Data/ProductData/";
+    Operation.StrCat(FileName, getUserName());
+    strcat(FileName, "_Products.txt");
+    ifstream FileIn(FileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << FileName << " when FindProduct." << endl;
+        return ;
+    }
+
+    int line = -4, num = 0;
+    string temp, temp2, temp3, temp4, temp5, temp6;
+    getline(FileIn, temp);
+    while (getline(FileIn, temp)) {
+        getline(FileIn, temp2);
+        getline(FileIn, temp3);
+        getline(FileIn, temp4);
+        getline(FileIn, temp5);
+        getline(FileIn, temp6);
+        line += 6;
+        if (name == temp){
+            num++;
+            cout << "商品名称：" << temp << endl;
+            cout << "商品定价：" << temp3 << endl;
+            cout << "商品库存：" << temp4 << endl;
+            double k = Operation.Converse(temp5);
+            double koff = 1-k;
+            cout << "折扣力度：减" << koff * 100 << "%" << endl;
+            cout << "商品描述：" << temp6 << endl;
+            cout << "*------------------------*" << endl;
+            return ;
+        }
+    }
+    cout << "您未曾添加名为 " << name << " 的商品" << endl;
+    FileIn.close();
+}
+/**********************************************************
+函数：ShowProduct
+形参：
+类型：void
+作用：展示商品
+返回：
+**********************************************************/
+void Merchant::ShowProduct() {
+    cout << "*----------------------*" << endl;
+    cout << "1：查看书本类商品" << endl;
+    cout << "2：查看衣服类商品" << endl;
+    cout << "3：查看食物类商品" << endl;
+    cout << "4：以名称查看商品" << endl;
+    cout << "*----------------------*" << endl;
+    int op = Operation.checkOp();
+    if (op == -1) {
+        cout << "输入不合法" << endl;
+        return ;
+    }
+    string book = "Book";
+    string clothes = "Clothes";
+    string food = "Food";
+    if (op == 1) ShowThisKindProduct(book);
+    if (op == 2) ShowThisKindProduct(clothes);
+    if (op == 3) ShowThisKindProduct(food);
+    if (op == 4) {
+        string productname; //getchar();
+        cout << "输入要查看的商品名称：" << endl;
+        getline(cin, productname);
+        ShowThisNameProduct(productname);
+    }
 }
 /**********************************************************
 函数：ManageProduct
@@ -126,13 +318,18 @@ int Merchant::AddNewProduct() {
 **********************************************************/
 void Merchant::ManageProduct() {
     cout << "*----------------------*" << endl;
-    cout << "1：添加商品" << endl;
+    cout << "1：添加新品" << endl;
     cout << "2：添加库存" << endl;
     cout << "3：商品打折" << endl;
     cout << "4：查看商品" << endl;
+    cout << "5：修改定价" << endl;
     cout << "*----------------------*" << endl;
     int op = Operation.checkOp();
     if (op == -1) return ;
     if (op == 1) if (AddNewProduct() == -1) AddNewProduct();
+    if (op == 2) AddProductNum();
+    if (op == 3) ;
+    if (op == 4) ShowProduct();
+
 }
 #endif //USERANDPRODUCT_TEST_MERCHANT_H

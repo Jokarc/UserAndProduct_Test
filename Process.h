@@ -20,6 +20,7 @@ public:
     void PrintOpList_3(User *CurrentUser);
     void Register(User *CurrentUser);
     void work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant);
+    void ShowProductForGuest(User *CurrentUser, int &Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant);
     int Login(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant);
     int UserLogin(User *CurrentUser, string usrname, string password);
 };
@@ -188,7 +189,16 @@ int Process::Login(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
     }
     return 0;
 }
+/**********************************************************
+函数：ShowProductForGuest
+形参：User *CurrentUser，int &Logged，Customer &CurrentCustomer，Merchant &CurrentMerchant
+类型：void
+作用：为游客用户提供商品的查看
+返回：
+**********************************************************/
+void Process::ShowProductForGuest(User *CurrentUser, int &Logged, Customer &CurrentCustomer, Merchant &CurrentMerchant) {
 
+}
 /**********************************************************
 函数：work
 形参：User *CurrentUser，int &Logged，Customer &CurrentCustomer，Merchant &CurrentMerchant

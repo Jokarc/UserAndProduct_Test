@@ -9,6 +9,8 @@
 D:/code/c/oop_c/UserAndProduct_Test/BasicOp.h
 iostream
 -
+fstream
+-
 string
 -
 
@@ -23,6 +25,8 @@ fstream
 -
 User.h
 D:/code/c/oop_c/UserAndProduct_Test/User.h
+Product.h
+D:/code/c/oop_c/UserAndProduct_Test/Product.h
 
 D:/code/c/oop_c/UserAndProduct_Test/Process.h
 string
@@ -33,6 +37,8 @@ Product.h
 D:/code/c/oop_c/UserAndProduct_Test/Product.h
 
 D:/code/c/oop_c/UserAndProduct_Test/Product.h
+User.h
+D:/code/c/oop_c/UserAndProduct_Test/User.h
 
 D:/code/c/oop_c/UserAndProduct_Test/User.h
 string

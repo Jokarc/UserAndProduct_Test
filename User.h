@@ -142,43 +142,7 @@ int User::UserRegister(string usrname, string password, string usrtype) {
     cout << "Registration is successful, please keep your username and password." << endl;
     return 1;
 }
-/**********************************************************
-函数：ModifyLineData
-形参：char *filename，int lineNum，string lineData
-类型：int
-作用：修改文件filename中第lineNum行的数据
-返回：失败-1，成功1
-**********************************************************/
-int ModifyLineData(char* fileName, int lineNum, string lineData)
-{
-    ifstream FileIn(fileName, ios::in);
-    if (!FileIn) {
-        cout << "can't find " << fileName  << " when ModifyLineData." << endl;
-        return -1;
-    }
-    string strFileData = "";
-    string tmpLineData;
-    int line = 1;
-    while(getline(FileIn, tmpLineData)) {
-        if (line == lineNum) {
-            strFileData += lineData;
-            strFileData += "\n";
-        }
-        else {
-            strFileData += tmpLineData;
-            strFileData += "\n";
-        }
-        line++;
-    }
-    FileIn.close();
-    //写入
-    ofstream out;
-    out.open(fileName);
-    out.flush();
-    out << strFileData;
-    out.close();
-    return 1;
-}
+
 /**********************************************************
 函数：UserRecharge
 形参：double num
@@ -200,7 +164,7 @@ int User::UserRecharge(double num) {
         if (this -> UserName == temp) {
             this -> accountBalance = num;
             char filename[100] = "../Data/UserData/UserBalance.txt";
-            ModifyLineData(filename, line, Operation.numToStr(num));
+            Operation.ModifyLineData(filename, line, Operation.numToStr(num));
         }
     }
     return 1;
@@ -236,7 +200,7 @@ int User::UserChangePswd() {
                     continue;
                 }
                 if (op == 2) break;
-                string s; getchar();
+                string s; //getchar();
                 getline(cin, s);
                 if (s != temp2) {
                     cout << "原密码错误" << endl;
@@ -252,11 +216,11 @@ int User::UserChangePswd() {
                             continue;
                         }
                         if (op2 == 2) break;
-                        string nPswd; getchar();
+                        string nPswd; //getchar();
                         getline(cin, nPswd);
                         if (Operation.checkPswd(nPswd)) {
                             char filename[100] = "../Data/UserData/UserInfo.txt";
-                            ModifyLineData(filename, line, nPswd);
+                            Operation.ModifyLineData(filename, line, nPswd);
                             cout << "密码已修改" << endl;
                             return 1;
                         } else {

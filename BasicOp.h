@@ -5,11 +5,9 @@
 #ifndef USERANDPRODUCT_TEST_BASICOP_H
 #define USERANDPRODUCT_TEST_BASICOP_H
 #include <iostream>
+#include <fstream>
 #include <string>
-using std::string;
-using std::cin;
-using std::cout;
-using std::endl;
+using namespace std;
 
 class BasicOp {
 public:
@@ -21,8 +19,10 @@ public:
     bool checkInt(string s);
     bool checkDouble(string s);
     double Converse(string s);
+    string intToStr(int num);
     string numToStr(double num);
     void StrCat(char *chs, string s);
+    int ModifyLineData(char* fileName, int lineNum, string lineData);
 };
 /**********************************************************
 函数：StrCat
@@ -161,5 +161,48 @@ string BasicOp::numToStr(double num) {
     int precision = 3;
     stream<<std::fixed<<std::setprecision(precision)<<num;
     return stream.str();
+}
+/**********************************************************
+函数：ModifyLineData
+形参：char *filename，int lineNum，string lineData
+类型：int
+作用：修改文件filename中第lineNum行的数据
+返回：失败-1，成功1
+**********************************************************/
+int BasicOp::ModifyLineData(char* fileName, int lineNum, string lineData) {
+    if (lineNum < 1) {
+        cout << "linNum ERROR." << endl;
+        return -1;
+    }
+    ifstream FileIn(fileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << fileName  << " when ModifyLineData." << endl;
+        return -1;
+    }
+    string strFileData = "";
+    string tmpLineData;
+    int line = 1;
+    while(getline(FileIn, tmpLineData)) {
+        if (line == lineNum) {
+            strFileData += lineData;
+            strFileData += "\n";
+        }
+        else {
+            strFileData += tmpLineData;
+            strFileData += "\n";
+        }
+        line++;
+    }
+    FileIn.close();
+    //写入
+    ofstream out;
+    out.open(fileName);
+    out.flush();
+    out << strFileData;
+    out.close();
+    return 1;
+}
+string BasicOp::intToStr(int num) {
+    return to_string(num);
 }
 #endif //USERANDPRODUCT_TEST_BASICOP_H

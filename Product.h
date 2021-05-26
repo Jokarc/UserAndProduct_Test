@@ -4,14 +4,16 @@
 
 #ifndef USERANDPRODUCT_TEST_PRODUCT_H
 #define USERANDPRODUCT_TEST_PRODUCT_H
-
+#include "User.h"
 class Product {
 protected:
     bool isDiscount;
     int num;
     double price;
     double discount;
+    string name;
     string productDescription;
+    string owner;
 
 public:
     virtual double getPrice(){}
@@ -23,6 +25,13 @@ public:
     }
     int productResNum() {
         return num;
+    }
+    void setInfo(string name_, double price_, int num_, double discount_, string productDescription_, string owner_) {
+        name = name_;
+        price = price_;
+        num = num_;
+        productDescription = productDescription_;
+        owner = owner_;
     }
 };
 class Book:public Product {
