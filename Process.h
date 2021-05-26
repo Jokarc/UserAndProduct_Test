@@ -5,6 +5,7 @@
 #ifndef USERANDPRODUCT_TEST_PROCESS_H
 #define USERANDPRODUCT_TEST_PROCESS_H
 #include <string>
+#include "io.h"
 #include "BasicOp.h"
 #include "Product.h"
 using std::string;
@@ -15,6 +16,7 @@ private:
 public:
     Process(){}
     ~Process(){}
+    void TraverseProductFile();
     void PrintOpList_1(User *CurrentUser);
     void PrintOpList_2(User *CurrentUser);
     void PrintOpList_3(User *CurrentUser);
@@ -261,5 +263,67 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
         }
     }
 }
+/**********************************************************
+函数：TraverseProductFile
+形参：
+类型：void
+作用：遍历产品文件，可以按需输出
+返回：
+**********************************************************/
+void Process::TraverseProductFile() {
+    cout << "*----------------------*" << endl;
+    cout << "1：查看书本类商品" << endl;
+    cout << "2：查看衣服类商品" << endl;
+    cout << "3：查看食物类商品" << endl;
+    cout << "4：以名称查看商品" << endl;
+    cout << "*----------------------*" << endl;
+    string name;
+    int op = Operation.checkOp();
+    if (op == -1) {
+        cout << "输入不合法" << endl;
+        return ;
+    }
+    if (op == 4) getline(cin, name);
+    string book = "Book";
+    string clothes = "Clothes";
+    string food = "Food";
+    string inPath = "../Data/ProductData/*.txt";
+    long handle;
+    struct _finddata_t fileinfo;
+    handle = _findfirst(inPath.c_str(), &fileinfo);
+    if (handle == -1)
+        return ;
+    do {
+        ifstream FileIn(fileinfo.name, ios::in);
+        if (!FileIn) {
+            cout << "can't find " << fileinfo.name << " when TraverseProductFile." << endl;
+            return ;
+        }
+        int line = -4, num = 0;
+        string temp, temp2, temp3, temp4, temp5, temp6;
+        getline(FileIn, temp);
+        while (getline(FileIn, temp)) {
+            getline(FileIn, temp2);
+            getline(FileIn, temp3);
+            getline(FileIn, temp4);
+            getline(FileIn, temp5);
+            getline(FileIn, temp6);
+            line += 6;
+            if (name == temp && op == 4){
+                num++;
+                cout << "商品名称：" << temp << endl;
+                cout << "商品定价：" << temp3 << endl;
+                cout << "商品库存：" << temp4 << endl;
+                double k = Operation.Converse(temp5);
+                double koff = 1-k;
+                cout << "折扣力度：减" << koff * 100 << "%" << endl;
+                cout << "商品描述：" << temp6 << endl;
+                cout << "*------------------------*" << endl;
+                return ;
+            }
+        }
 
+    } while (!_findnext(handle, &fileinfo));
+    _findclose(handle);
+}
 #endif //USERANDPRODUCT_TEST_PROCESS_H
