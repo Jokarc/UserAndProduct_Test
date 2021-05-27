@@ -21,6 +21,7 @@ public:
     }
     void ShowProduct();
     void ManageProduct();
+    void ProductDiscount();
     void ShowThisKindProduct(string kind);
     void ShowThisNameProduct(string name);
     int AddNewProduct();
@@ -225,8 +226,9 @@ void Merchant::ShowThisKindProduct(string kind) {
             cout << "商品定价：" << temp3 << endl;
             cout << "商品库存：" << temp4 << endl;
             double k = Operation.Converse(temp5);
+            double newPrice = k * Operation.Converse(temp3);
             double koff = 1-k;
-            cout << "折扣力度：减" << koff * 100 << "%" << endl;
+            cout << "折扣力度：减" << koff * 100 << "%，实时价格：" << newPrice << endl;
             cout << "商品描述：" << temp6 << endl;
             cout << "*------------------------*" << endl;
         }
@@ -267,8 +269,9 @@ void Merchant::ShowThisNameProduct(string name) {
             cout << "商品定价：" << temp3 << endl;
             cout << "商品库存：" << temp4 << endl;
             double k = Operation.Converse(temp5);
+            double newPrice = k * Operation.Converse(temp3);
             double koff = 1-k;
-            cout << "折扣力度：减" << koff * 100 << "%" << endl;
+            cout << "折扣力度：减" << koff * 100 << "%，实时价格：" << newPrice << endl;
             cout << "商品描述：" << temp6 << endl;
             cout << "*------------------------*" << endl;
             return ;
@@ -310,6 +313,65 @@ void Merchant::ShowProduct() {
     }
 }
 /**********************************************************
+函数：ProductDiscount
+形参：
+类型：void
+作用：商品打折
+返回：
+**********************************************************/
+void Merchant::ProductDiscount() {
+    cout << "正在对已有商品进行打折，请输入要打折的商品名称" << endl;
+    string s; getline(cin, s);
+    char FileName[50] = "../Data/ProductData/";
+    Operation.StrCat(FileName, getUserName());
+    strcat(FileName, "_Products.txt");
+    if (FindProduct(FileName, s) == 1) {
+        cout << "商品不存在，请返回选择添加新品" << endl;
+        return ;
+    }
+    ifstream FileIn(FileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << FileName << " when AddProductNum." << endl;
+        return ;
+    }
+    int line = -1; bool flag = false;
+    string temp, temp2, temp3, temp4, temp5, temp6;
+    getline(FileIn, temp);
+    while (getline(FileIn, temp)) {
+        getline(FileIn, temp2);
+        getline(FileIn, temp3);
+        getline(FileIn, temp4);
+        getline(FileIn, temp5);
+        getline(FileIn, temp6);
+        line += 6;
+        if (s == temp){
+            flag = true;
+            break;
+        }
+    }
+    if (!flag) {
+        cout << "Find Error." << endl;
+    } else {
+        double disc = Operation.Converse(temp5);
+        cout << "请输入打折力度，请输入小于1的浮点数，如九折输入0.9即可：" << endl;
+        string s;
+        getline(cin, s);
+        int x = Operation.checkDouble(s);
+        if (!x) {
+            cout << "输入不合法" << endl;
+            return ;
+        }
+        double op = Operation.Converse(s);
+        if (op > 1) {
+            cout << "请输入小于1的浮点数" << endl;
+            return ;
+        }
+        Operation.ModifyLineData(FileName, line+1, to_string(op));
+    }
+    FileIn.close();
+    return ;
+}
+/**********************************************************
 函数：ManageProduct
 形参：
 类型：void
@@ -328,7 +390,7 @@ void Merchant::ManageProduct() {
     if (op == -1) return ;
     if (op == 1) if (AddNewProduct() == -1) AddNewProduct();
     if (op == 2) AddProductNum();
-    if (op == 3) ;
+    if (op == 3) ProductDiscount();
     if (op == 4) ShowProduct();
 
 }

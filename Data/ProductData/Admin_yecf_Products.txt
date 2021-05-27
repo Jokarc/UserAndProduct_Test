@@ -2,8 +2,8 @@
 book
 Book
 100
-127
-1
+100
+0.123440
 none
 book2
 Book

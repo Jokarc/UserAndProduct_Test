@@ -277,8 +277,9 @@ void Process::OutProduct(string name, string price, string num, string dis, stri
     cout << "商品定价：" << price << endl;
     cout << "商品库存：" << num << endl;
     double k = Operation.Converse(dis);
+    double newPrice = k * Operation.Converse(price);
     double koff = 1-k;
-    cout << "折扣力度：减" << koff * 100 << "%" << endl;
+    cout << "折扣力度：减" << koff * 100 << "%，实时价格：" << newPrice << endl;
     cout << "商品描述：" << descrip << endl;
     cout << "在售商家：" << Mer << endl;
     cout << "*------------------------*" << endl;
