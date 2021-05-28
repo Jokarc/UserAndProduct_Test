@@ -100,8 +100,10 @@ bool BasicOp::checkName(string s) {
 返回：表示为合法返回true
 **********************************************************/
 bool BasicOp::checkInt(string s) {
-    for (int i = 0; i < s.length(); i++)
+    for (int i = 0; i < s.length(); i++) {
+        if (i == 0 && s[i] == '-') continue;
         if (!isdigit(s[i])) return 0;
+    }
     return 1;
 }
 /**********************************************************
@@ -137,6 +139,12 @@ bool BasicOp::checkDouble(string s) {
 double BasicOp::Converse(string s) {
     double x = 0;
     int i = 0;
+    double flag = 1;
+    if (s[0] == '-') {
+        flag = -1;
+        i = 1;
+    }
+    //cout << x << endl;
     for ( ; i < s.length(); i++) {
         if (s[i] == '.') break;
         x = x * 10 + s[i] - 48;
@@ -147,7 +155,7 @@ double BasicOp::Converse(string s) {
         x += f * (s[i] - 48);
         f *= 0.1;
     }
-    return x;
+    return x * flag;
 }
 /**********************************************************
 函数：numToStr

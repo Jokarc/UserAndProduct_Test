@@ -33,7 +33,7 @@ public:
     }
     int UserLogOut(int &Logged);
     int UserRegister(string usrname, string password, string usrtype);
-    int UserRecharge(double num);
+    int UserRecharge(int kind);
     int UserChangePswd();
     string getUserName() {return UserName;}
 };
@@ -150,7 +150,25 @@ int User::UserRegister(string usrname, string password, string usrtype) {
 作用：为当前类用户充值num金额
 返回：失败-1，成功1
 **********************************************************/
-int User::UserRecharge(double num) {
+int User::UserRecharge(int kind) {
+    if (kind == 1) {
+        cout << "充值金额为正浮点数，最多支持三位精度" << endl;
+        cout << "请输入充值金额：" << endl;
+    } else if (kind == -1) {
+        cout << "提现金额为正浮点数，最多支持三位精度" << endl;
+        cout << "请输入提现金额：" << endl;
+    }
+    double val, num; string s;
+    getline(cin, s);
+    if (!Operation.checkDouble(s)) {
+        cout << "输入不合法" << endl;
+        return -1;
+    }
+    //cout << s << endl;
+    val = Operation.Converse(s);
+    if (kind == 1)  cout << "您要充值的金额为：" << val << endl;
+    if (kind == -1) cout << "您要提现的金额为：" << val << endl;
+    num =  getAccountBalance() + val * kind;
     ifstream FileIn("../Data/UserData/UserBalance.txt", ios::in);
     if (!FileIn) {
         cout << "can't find UserBalance.txt when UserRecharge." << endl;
@@ -167,6 +185,7 @@ int User::UserRecharge(double num) {
             Operation.ModifyLineData(filename, line, Operation.numToStr(num));
         }
     }
+    cout << "成功，当前余额为："<<getAccountBalance() << endl;
     return 1;
 }
 /**********************************************************

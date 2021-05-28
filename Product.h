@@ -16,7 +16,9 @@ protected:
     string owner;
 
 public:
-    virtual double getPrice(){}
+    virtual double getPrice(){
+        return 0;
+    }
     bool IsDiscount() {
         return isDiscount;
     }

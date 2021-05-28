@@ -22,6 +22,8 @@ public:
     void ShowProduct();
     void ManageProduct();
     void ProductDiscount();
+    void ChangeProductPrice();
+    void ChangeProductInfo(char *FileName, string name, string info, int offset);
     void ShowThisKindProduct(string kind);
     void ShowThisNameProduct(string name);
     int AddNewProduct();
@@ -61,7 +63,39 @@ int Merchant::FindProduct(char *FileName, string ProductName) {
     FileIn.close();
     return 1;//商品不存在
 }
-
+/**********************************************************
+函数：ChangeProductInfo
+形参：
+类型：void
+作用：修改商品，//名称，种类，价格，数量，打折力度，描述
+返回：
+**********************************************************/
+void Merchant::ChangeProductInfo(char *FileName, string name, string info, int offset) {
+    ifstream FileIn(FileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << FileName << " when ChangeProductInfo." << endl;
+        return ;
+    }
+    int line = 2;
+    int flag = 0;
+    string temp, temp2, temp3, temp4, temp5, temp6;
+    getline(FileIn, temp);
+    while (getline(FileIn, temp)) {
+        getline(FileIn, temp2);
+        getline(FileIn, temp3);
+        getline(FileIn, temp4);
+        getline(FileIn, temp5);
+        getline(FileIn, temp6);
+        if (name == temp){
+            flag = 1;
+            Operation.ModifyLineData(FileName, line + offset, info);
+        }
+        line += 6;
+    }
+    if (!flag) cout << "Find ERROR" << endl;
+    FileIn.close();
+    return ;
+}
 /**********************************************************
 函数：AddProduct
 形参：
@@ -146,7 +180,7 @@ int Merchant::AddNewProduct() {
 返回：返回0，商品不存在，返回-1，无文件
 **********************************************************/
 int Merchant::AddProductNum() {
-    cout << "正在添加已存在商品库存，请输入要添加的商品名称" << endl;
+    cout << "正在调整商品库存，请输入要调整的商品名称" << endl;
     string s; getline(cin, s);
     char FileName[50] = "../Data/ProductData/";
     Operation.StrCat(FileName, getUserName());
@@ -180,7 +214,7 @@ int Merchant::AddProductNum() {
     } else {
         int num = Operation.Converse(temp4);
         cout << "当前数量为：" << num << endl;
-        cout << "请输入添加数量" << endl;
+        cout << "请输入调整数量，添加为正整数，减少为负整数" << endl;
         string s;
         getline(cin, s);
         int x = Operation.checkInt(s);
@@ -189,7 +223,13 @@ int Merchant::AddProductNum() {
             return -1;
         }
         int op = (int)Operation.Converse(s) + num;
-        Operation.ModifyLineData(FileName, line, to_string(op));
+        if (op >= 0) {
+            Operation.ModifyLineData(FileName, line, to_string(op));
+            cout << "库存调整成功，该商品实时库存为：" << op << endl;
+        }
+        else {
+            cout << "ERROR, 库存不能为负数" << endl;
+        }
     }
     FileIn.close();
     return 1;
@@ -320,8 +360,68 @@ void Merchant::ShowProduct() {
 返回：
 **********************************************************/
 void Merchant::ProductDiscount() {
-    cout << "正在对已有商品进行打折，请输入要打折的商品名称" << endl;
+    cout << "正在对已有商品进行打折，请输入要打折的商品种类(Book, Clothes, Food)" << endl;
     string s; getline(cin, s);
+    char FileName[50] = "../Data/ProductData/";
+    Operation.StrCat(FileName, getUserName());
+    strcat(FileName, "_Products.txt");
+//    if (FindProduct(FileName, s) == 1) {
+//        cout << "商品不存在，请返回选择添加新品" << endl;
+//        return ;
+//    }
+    ifstream FileIn(FileName, ios::in);
+    if (!FileIn) {
+        cout << "can't find " << FileName << " when AddProductNum." << endl;
+        return ;
+    }
+    cout << "请输入打折力度，请输入小于1的浮点数，如九折输入0.9即可：" << endl;
+    string discount;
+    getline(cin, discount);
+    int x = Operation.checkDouble(discount);
+    if (!x) {
+        cout << "输入不合法" << endl;
+        return ;
+    }
+    double op = Operation.Converse(discount);
+    if (op > 1) {
+        cout << "请输入小于1的浮点数" << endl;
+        return ;
+    }
+
+    int line = -1; bool flag = false;
+    string temp, temp2, temp3, temp4, temp5, temp6;
+    getline(FileIn, temp);
+    while (getline(FileIn, temp)) {
+        getline(FileIn, temp2);
+        getline(FileIn, temp3);
+        getline(FileIn, temp4);
+        getline(FileIn, temp5);
+        getline(FileIn, temp6);
+        line += 6;
+        if (s == temp2){
+            flag = true;
+            Operation.ModifyLineData(FileName, line+1, to_string(op));
+        }
+    }
+
+    if (!flag) {
+        cout << "没有该品类商品，discount ERROR." << endl;
+    }
+    FileIn.close();
+    return ;
+}
+/**********************************************************
+函数：ChangeProductPrice
+形参：
+类型：void
+作用：修改商品定价，非现价
+返回：
+**********************************************************/
+void Merchant::ChangeProductPrice() {
+    cout << "正在修改商品定价，请输入要修改的商品名称" << endl;
+//    getchar();
+    string s; getline(cin, s);
+    cout << s << endl;
     char FileName[50] = "../Data/ProductData/";
     Operation.StrCat(FileName, getUserName());
     strcat(FileName, "_Products.txt");
@@ -331,10 +431,10 @@ void Merchant::ProductDiscount() {
     }
     ifstream FileIn(FileName, ios::in);
     if (!FileIn) {
-        cout << "can't find " << FileName << " when AddProductNum." << endl;
+        cout << "can't find " << FileName << " when ChangeProductPrice." << endl;
         return ;
     }
-    int line = -1; bool flag = false;
+    int line = -2; bool flag = false;
     string temp, temp2, temp3, temp4, temp5, temp6;
     getline(FileIn, temp);
     while (getline(FileIn, temp)) {
@@ -352,8 +452,9 @@ void Merchant::ProductDiscount() {
     if (!flag) {
         cout << "Find Error." << endl;
     } else {
-        double disc = Operation.Converse(temp5);
-        cout << "请输入打折力度，请输入小于1的浮点数，如九折输入0.9即可：" << endl;
+        double price = Operation.Converse(temp3);
+        cout << "当前定价为：" << price << endl;
+        cout << "请输入新定价" << endl;
         string s;
         getline(cin, s);
         int x = Operation.checkDouble(s);
@@ -361,12 +462,14 @@ void Merchant::ProductDiscount() {
             cout << "输入不合法" << endl;
             return ;
         }
-        double op = Operation.Converse(s);
-        if (op > 1) {
-            cout << "请输入小于1的浮点数" << endl;
-            return ;
+        double np = Operation.Converse(s);
+        if (np >= 0) {
+            Operation.ModifyLineData(FileName, line, to_string(np));
+            cout << "定价调整成功，该商品新定价为：" << np << endl;
         }
-        Operation.ModifyLineData(FileName, line+1, to_string(op));
+        else {
+            cout << "ERROR, 定价不能为负数" << endl;
+        }
     }
     FileIn.close();
     return ;
@@ -381,7 +484,7 @@ void Merchant::ProductDiscount() {
 void Merchant::ManageProduct() {
     cout << "*----------------------*" << endl;
     cout << "1：添加新品" << endl;
-    cout << "2：添加库存" << endl;
+    cout << "2：调整库存" << endl;
     cout << "3：商品打折" << endl;
     cout << "4：查看商品" << endl;
     cout << "5：修改定价" << endl;
@@ -392,6 +495,7 @@ void Merchant::ManageProduct() {
     if (op == 2) AddProductNum();
     if (op == 3) ProductDiscount();
     if (op == 4) ShowProduct();
+    if (op == 5) ChangeProductPrice();
 
 }
 #endif //USERANDPRODUCT_TEST_MERCHANT_H

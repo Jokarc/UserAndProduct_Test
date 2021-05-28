@@ -58,7 +58,8 @@ void Process::PrintOpList_2(User *CurrentUser) {
     cout << "5：账户类型" << endl;
     cout << "6：我要充钱" << endl;
     cout << "7：修改密码" << endl;
-    cout << "8：关闭程序" << endl;
+    cout << "8：我要提现" << endl;
+    cout << "0：关闭程序" << endl;
     cout << "*----------------------*" << endl;
 }
 /**********************************************************
@@ -77,8 +78,9 @@ void Process::PrintOpList_3(User *CurrentUser) {
     cout << "5：账户类型" << endl;
     cout << "6：我要充钱" << endl;
     cout << "7：修改密码" << endl;
-    cout << "8：关闭程序" << endl;
+    cout << "8：我要提现" << endl;
     cout << "9：管理商品" << endl;
+    cout << "0：关闭程序" << endl;
     cout << "*----------------------*" << endl;
 }
 /**********************************************************
@@ -234,7 +236,7 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
             if (op == -1) {
                 cout << "输入不合法，请输入数字" << endl;
             }
-            if (op == 8) break;
+            if (op == 0) break;
             if (op == 1) CurrentUser->UserLogOut(Logged);
             if (op == 2) cout << "当前余额：" << CurrentUser -> getAccountBalance() << endl;
             if (op == 3) TraverseProductFile();
@@ -243,22 +245,9 @@ void Process::work(User *CurrentUser, int& Logged, Customer &CurrentCustomer, Me
                 if (Logged == 1) CurrentCustomer.getUserType();
                 if (Logged == 2) CurrentMerchant.getUserType();
             }
-            if (op == 6) {
-                cout << "充值金额为浮点数，最多支持三位精度" << endl;
-                cout << "请输入充值金额：" << endl;
-                double val; string s;
-                getchar();
-                getline(cin, s);
-                if (!Operation.checkDouble(s)) {
-                    cout << "输入不合法" << endl;
-                    continue;
-                }
-                val = Operation.Converse(s);
-                cout << "您要充值的金额为：" << val << endl;
-                CurrentUser ->UserRecharge(CurrentUser -> getAccountBalance() + val);
-                cout << "充值成功" << endl;
-            }
+            if (op == 6) CurrentUser -> UserRecharge(1);
             if (op == 7) CurrentUser -> UserChangePswd();
+            if (op == 8) CurrentUser -> UserRecharge(-1);
             if (op == 9 && Logged == 2) {
                 CurrentMerchant.ManageProduct();
             }
