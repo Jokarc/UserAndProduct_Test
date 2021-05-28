@@ -317,8 +317,10 @@ void Process::TraverseProductFile() {
             continue;
         }
         int line = -4;
-        string name, kind, price, num, dis, descrip,Mer = "";
-        for (int i = 0; fileinfo.name[i] != '.'; i++) Mer += fileinfo.name[i];
+        string name, kind, price, num, dis, descrip,Mer = "", Mer1="";
+        for (int i = 0; fileinfo.name[i] != '.'; i++) Mer1 += fileinfo.name[i];
+        int l = Mer1.length();
+        Mer = Mer1.substr(0, l-9);
         getline(FileIn, name);
         while (getline(FileIn, name)) {
             getline(FileIn, kind);

@@ -33,14 +33,14 @@ public:
 };
 
 void Merchant::getUserType() {
-    cout << "å½“å‰ç”¨æˆ·ç±»åž‹ï¼šå•†å®¶" << endl;
+    cout << "µ±Ç°ÓÃ»§ÀàÐÍ£ºÉÌ¼Ò" << endl;
 }
 /**********************************************************
-å‡½æ•°ï¼šFindProduct
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šå¯»æ‰¾å•†å“ï¼Œ//åç§°ï¼Œç§ç±»ï¼Œä»·æ ¼ï¼Œæ•°é‡ï¼Œæ‰“æŠ˜åŠ›åº¦ï¼Œæè¿°
-è¿”å›žï¼š
+º¯Êý£ºFindProduct
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÑ°ÕÒÉÌÆ·£¬//Ãû³Æ£¬ÖÖÀà£¬¼Û¸ñ£¬ÊýÁ¿£¬´òÕÛÁ¦¶È£¬ÃèÊö
+·µ»Ø£º
 **********************************************************/
 int Merchant::FindProduct(char *FileName, string ProductName) {
     ifstream FileIn(FileName, ios::in);
@@ -57,18 +57,18 @@ int Merchant::FindProduct(char *FileName, string ProductName) {
         getline(FileIn, temp5);
         getline(FileIn, temp6);
         if (ProductName == temp){
-            return -1;//å•†å“å­˜åœ¨
+            return -1;//ÉÌÆ·´æÔÚ
         }
     }
     FileIn.close();
-    return 1;//å•†å“ä¸å­˜åœ¨
+    return 1;//ÉÌÆ·²»´æÔÚ
 }
 /**********************************************************
-å‡½æ•°ï¼šChangeProductInfo
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šä¿®æ”¹å•†å“ï¼Œ//åç§°ï¼Œç§ç±»ï¼Œä»·æ ¼ï¼Œæ•°é‡ï¼Œæ‰“æŠ˜åŠ›åº¦ï¼Œæè¿°
-è¿”å›žï¼š
+º¯Êý£ºChangeProductInfo
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÐÞ¸ÄÉÌÆ·£¬//Ãû³Æ£¬ÖÖÀà£¬¼Û¸ñ£¬ÊýÁ¿£¬´òÕÛÁ¦¶È£¬ÃèÊö
+·µ»Ø£º
 **********************************************************/
 void Merchant::ChangeProductInfo(char *FileName, string name, string info, int offset) {
     ifstream FileIn(FileName, ios::in);
@@ -97,11 +97,11 @@ void Merchant::ChangeProductInfo(char *FileName, string name, string info, int o
     return ;
 }
 /**********************************************************
-å‡½æ•°ï¼šAddProduct
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šæ·»åŠ å•†å“
-è¿”å›žï¼š
+º¯Êý£ºAddProduct
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÌí¼ÓÉÌÆ·
+·µ»Ø£º
 **********************************************************/
 int Merchant::AddNewProduct() {
     char FileName[50] = "../Data/ProductData/";
@@ -123,36 +123,36 @@ int Merchant::AddNewProduct() {
     int tempNum;
     string tempDescription;
     string ProductName;
-    cout << "è¯·è¾“å…¥å•†å“åç§°" << endl;
+    cout << "ÇëÊäÈëÉÌÆ·Ãû³Æ" << endl;
     getline(cin, ProductName);
     if (FindProduct(FileName,ProductName) == -1) {
-        cout << "æ‚¨çš„è¯¥å•†å“å·²å­˜åœ¨ï¼Œè¯·å‹¿é‡å¤æ·»åŠ " << endl;
+        cout << "ÄúµÄ¸ÃÉÌÆ·ÒÑ´æÔÚ£¬ÇëÎðÖØ¸´Ìí¼Ó" << endl;
         return 0;
     }
     string temp;
-    cout << "è¯·è¾“å…¥å•†å“ä»·æ ¼ï¼Œæµ®ç‚¹æ•°ï¼Œæ”¯æŒä¸‰ä½ç²¾åº¦" << endl;
+    cout << "ÇëÊäÈëÉÌÆ·¼Û¸ñ£¬¸¡µãÊý£¬Ö§³ÖÈýÎ»¾«¶È" << endl;
     getline(cin, temp);
     if (!Operation.checkDouble(temp)) {
-        cout << "è¯·æŒ‰è¦æ±‚è¾“å…¥" << endl;
+        cout << "Çë°´ÒªÇóÊäÈë" << endl;
         return 0;
     }
     tempPrice = Operation.Converse(temp);
-    cout << "è¯·è¾“å…¥å•†å“æ•°é‡ï¼Œéžè´Ÿæ•´æ•°" << endl;
+    cout << "ÇëÊäÈëÉÌÆ·ÊýÁ¿£¬·Ç¸ºÕûÊý" << endl;
     getline(cin, temp);
     if (!Operation.checkInt(temp)) {
-        cout << "è¯·æŒ‰è¦æ±‚è¾“å…¥" << endl;
+        cout << "Çë°´ÒªÇóÊäÈë" << endl;
         return 0;
     }
     tempNum = Operation.Converse(temp);
-    cout << "è¯·è¾“å…¥å•†å“æè¿°" << endl;
+    cout << "ÇëÊäÈëÉÌÆ·ÃèÊö" << endl;
     getline(cin, temp);
-    cout << "è¯·é€‰æ‹©å•†å“ç§ç±»" << endl;
-    cout << "1ï¼šä¹¦æœ¬" << endl;
-    cout << "2ï¼šè¡£æœ" << endl;
-    cout << "3ï¼šé£Ÿå“" << endl;
+    cout << "ÇëÑ¡ÔñÉÌÆ·ÖÖÀà" << endl;
+    cout << "1£ºÊé±¾" << endl;
+    cout << "2£ºÒÂ·þ" << endl;
+    cout << "3£ºÊ³Æ·" << endl;
     int op = Operation.checkOp();
     if (op == -1) {
-        cout << "è¾“å…¥ä¸åˆæ³•" << endl;
+        cout << "ÊäÈë²»ºÏ·¨" << endl;
         return 0;
     }
     tempDescription = temp;
@@ -173,20 +173,20 @@ int Merchant::AddNewProduct() {
     return 0;
 }
 /**********************************************************
-å‡½æ•°ï¼šAddProductNum
-å½¢å‚ï¼š
-ç±»åž‹ï¼šint
-ä½œç”¨ï¼šæ·»åŠ å•†å“åº“å­˜
-è¿”å›žï¼šè¿”å›ž0ï¼Œå•†å“ä¸å­˜åœ¨ï¼Œè¿”å›ž-1ï¼Œæ— æ–‡ä»¶
+º¯Êý£ºAddProductNum
+ÐÎ²Î£º
+ÀàÐÍ£ºint
+×÷ÓÃ£ºÌí¼ÓÉÌÆ·¿â´æ
+·µ»Ø£º·µ»Ø0£¬ÉÌÆ·²»´æÔÚ£¬·µ»Ø-1£¬ÎÞÎÄ¼þ
 **********************************************************/
 int Merchant::AddProductNum() {
-    cout << "æ­£åœ¨è°ƒæ•´å•†å“åº“å­˜ï¼Œè¯·è¾“å…¥è¦è°ƒæ•´çš„å•†å“åç§°" << endl;
+    cout << "ÕýÔÚµ÷ÕûÉÌÆ·¿â´æ£¬ÇëÊäÈëÒªµ÷ÕûµÄÉÌÆ·Ãû³Æ" << endl;
     string s; getline(cin, s);
     char FileName[50] = "../Data/ProductData/";
     Operation.StrCat(FileName, getUserName());
     strcat(FileName, "_Products.txt");
     if (FindProduct(FileName, s) == 1) {
-        cout << "å•†å“ä¸å­˜åœ¨ï¼Œè¯·è¿”å›žé€‰æ‹©æ·»åŠ æ–°å“" << endl;
+        cout << "ÉÌÆ·²»´æÔÚ£¬Çë·µ»ØÑ¡ÔñÌí¼ÓÐÂÆ·" << endl;
         return 0;
     }
     ifstream FileIn(FileName, ios::in);
@@ -213,33 +213,33 @@ int Merchant::AddProductNum() {
         cout << "Find Error." << endl;
     } else {
         int num = Operation.Converse(temp4);
-        cout << "å½“å‰æ•°é‡ä¸ºï¼š" << num << endl;
-        cout << "è¯·è¾“å…¥è°ƒæ•´æ•°é‡ï¼Œæ·»åŠ ä¸ºæ­£æ•´æ•°ï¼Œå‡å°‘ä¸ºè´Ÿæ•´æ•°" << endl;
+        cout << "µ±Ç°ÊýÁ¿Îª£º" << num << endl;
+        cout << "ÇëÊäÈëµ÷ÕûÊýÁ¿£¬Ìí¼ÓÎªÕýÕûÊý£¬¼õÉÙÎª¸ºÕûÊý" << endl;
         string s;
         getline(cin, s);
         int x = Operation.checkInt(s);
         if (!x) {
-            cout << "è¾“å…¥ä¸åˆæ³•" << endl;
+            cout << "ÊäÈë²»ºÏ·¨" << endl;
             return -1;
         }
         int op = (int)Operation.Converse(s) + num;
         if (op >= 0) {
             Operation.ModifyLineData(FileName, line, to_string(op));
-            cout << "åº“å­˜è°ƒæ•´æˆåŠŸï¼Œè¯¥å•†å“å®žæ—¶åº“å­˜ä¸ºï¼š" << op << endl;
+            cout << "¿â´æµ÷Õû³É¹¦£¬¸ÃÉÌÆ·ÊµÊ±¿â´æÎª£º" << op << endl;
         }
         else {
-            cout << "ERROR, åº“å­˜ä¸èƒ½ä¸ºè´Ÿæ•°" << endl;
+            cout << "ERROR, ¿â´æ²»ÄÜÎª¸ºÊý" << endl;
         }
     }
     FileIn.close();
     return 1;
 }
 /**********************************************************
-å‡½æ•°ï¼šShowThisKindProduct
-å½¢å‚ï¼šstring kind
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šå±•ç¤ºkindç±»å•†å“
-è¿”å›žï¼š
+º¯Êý£ºShowThisKindProduct
+ÐÎ²Î£ºstring kind
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÕ¹Ê¾kindÀàÉÌÆ·
+·µ»Ø£º
 **********************************************************/
 void Merchant::ShowThisKindProduct(string kind) {
     char FileName[50] = "../Data/ProductData/";
@@ -262,26 +262,26 @@ void Merchant::ShowThisKindProduct(string kind) {
         line += 6;
         if (kind == temp2){
             num++;
-            cout << "å•†å“åç§°ï¼š" << temp << endl;
-            cout << "å•†å“å®šä»·ï¼š" << temp3 << endl;
-            cout << "å•†å“åº“å­˜ï¼š" << temp4 << endl;
+            cout << "ÉÌÆ·Ãû³Æ£º" << temp << endl;
+            cout << "ÉÌÆ·¶¨¼Û£º" << temp3 << endl;
+            cout << "ÉÌÆ·¿â´æ£º" << temp4 << endl;
             double k = Operation.Converse(temp5);
             double newPrice = k * Operation.Converse(temp3);
             double koff = 1-k;
-            cout << "æŠ˜æ‰£åŠ›åº¦ï¼šå‡" << koff * 100 << "%ï¼Œå®žæ—¶ä»·æ ¼ï¼š" << newPrice << endl;
-            cout << "å•†å“æè¿°ï¼š" << temp6 << endl;
+            cout << "ÕÛ¿ÛÁ¦¶È£º¼õ" << koff * 100 << "%£¬ÊµÊ±¼Û¸ñ£º" << newPrice << endl;
+            cout << "ÉÌÆ·ÃèÊö£º" << temp6 << endl;
             cout << "*------------------------*" << endl;
         }
     }
-    cout << "æ‚¨å…±æœ‰" << kind << "ç±»å•†å“" << num << "ç§" << endl;
+    cout << "Äú¹²ÓÐ" << kind << "ÀàÉÌÆ·" << num << "ÖÖ" << endl;
     FileIn.close();
 }
 /**********************************************************
-å‡½æ•°ï¼šShowThisNameProduct
-å½¢å‚ï¼šstring Name
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šå±•ç¤ºåç§°Nameå•†å“
-è¿”å›žï¼š
+º¯Êý£ºShowThisNameProduct
+ÐÎ²Î£ºstring Name
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÕ¹Ê¾Ãû³ÆNameÉÌÆ·
+·µ»Ø£º
 **********************************************************/
 void Merchant::ShowThisNameProduct(string name) {
     char FileName[50] = "../Data/ProductData/";
@@ -305,38 +305,38 @@ void Merchant::ShowThisNameProduct(string name) {
         line += 6;
         if (name == temp){
             num++;
-            cout << "å•†å“åç§°ï¼š" << temp << endl;
-            cout << "å•†å“å®šä»·ï¼š" << temp3 << endl;
-            cout << "å•†å“åº“å­˜ï¼š" << temp4 << endl;
+            cout << "ÉÌÆ·Ãû³Æ£º" << temp << endl;
+            cout << "ÉÌÆ·¶¨¼Û£º" << temp3 << endl;
+            cout << "ÉÌÆ·¿â´æ£º" << temp4 << endl;
             double k = Operation.Converse(temp5);
             double newPrice = k * Operation.Converse(temp3);
             double koff = 1-k;
-            cout << "æŠ˜æ‰£åŠ›åº¦ï¼šå‡" << koff * 100 << "%ï¼Œå®žæ—¶ä»·æ ¼ï¼š" << newPrice << endl;
-            cout << "å•†å“æè¿°ï¼š" << temp6 << endl;
+            cout << "ÕÛ¿ÛÁ¦¶È£º¼õ" << koff * 100 << "%£¬ÊµÊ±¼Û¸ñ£º" << newPrice << endl;
+            cout << "ÉÌÆ·ÃèÊö£º" << temp6 << endl;
             cout << "*------------------------*" << endl;
             return ;
         }
     }
-    cout << "æ‚¨æœªæ›¾æ·»åŠ åä¸º " << name << " çš„å•†å“" << endl;
+    cout << "ÄúÎ´ÔøÌí¼ÓÃûÎª " << name << " µÄÉÌÆ·" << endl;
     FileIn.close();
 }
 /**********************************************************
-å‡½æ•°ï¼šShowProduct
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šå±•ç¤ºå•†å“
-è¿”å›žï¼š
+º¯Êý£ºShowProduct
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÕ¹Ê¾ÉÌÆ·
+·µ»Ø£º
 **********************************************************/
 void Merchant::ShowProduct() {
     cout << "*----------------------*" << endl;
-    cout << "1ï¼šæŸ¥çœ‹ä¹¦æœ¬ç±»å•†å“" << endl;
-    cout << "2ï¼šæŸ¥çœ‹è¡£æœç±»å•†å“" << endl;
-    cout << "3ï¼šæŸ¥çœ‹é£Ÿç‰©ç±»å•†å“" << endl;
-    cout << "4ï¼šä»¥åç§°æŸ¥çœ‹å•†å“" << endl;
+    cout << "1£º²é¿´Êé±¾ÀàÉÌÆ·" << endl;
+    cout << "2£º²é¿´ÒÂ·þÀàÉÌÆ·" << endl;
+    cout << "3£º²é¿´Ê³ÎïÀàÉÌÆ·" << endl;
+    cout << "4£ºÒÔÃû³Æ²é¿´ÉÌÆ·" << endl;
     cout << "*----------------------*" << endl;
     int op = Operation.checkOp();
     if (op == -1) {
-        cout << "è¾“å…¥ä¸åˆæ³•" << endl;
+        cout << "ÊäÈë²»ºÏ·¨" << endl;
         return ;
     }
     string book = "Book";
@@ -347,26 +347,26 @@ void Merchant::ShowProduct() {
     if (op == 3) ShowThisKindProduct(food);
     if (op == 4) {
         string productname; //getchar();
-        cout << "è¾“å…¥è¦æŸ¥çœ‹çš„å•†å“åç§°ï¼š" << endl;
+        cout << "ÊäÈëÒª²é¿´µÄÉÌÆ·Ãû³Æ£º" << endl;
         getline(cin, productname);
         ShowThisNameProduct(productname);
     }
 }
 /**********************************************************
-å‡½æ•°ï¼šProductDiscount
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šå•†å“æ‰“æŠ˜
-è¿”å›žï¼š
+º¯Êý£ºProductDiscount
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÉÌÆ·´òÕÛ
+·µ»Ø£º
 **********************************************************/
 void Merchant::ProductDiscount() {
-    cout << "æ­£åœ¨å¯¹å·²æœ‰å•†å“è¿›è¡Œæ‰“æŠ˜ï¼Œè¯·è¾“å…¥è¦æ‰“æŠ˜çš„å•†å“ç§ç±»(Book, Clothes, Food)" << endl;
+    cout << "ÕýÔÚ¶ÔÒÑÓÐÉÌÆ·½øÐÐ´òÕÛ£¬ÇëÊäÈëÒª´òÕÛµÄÉÌÆ·ÖÖÀà(Book, Clothes, Food)" << endl;
     string s; getline(cin, s);
     char FileName[50] = "../Data/ProductData/";
     Operation.StrCat(FileName, getUserName());
     strcat(FileName, "_Products.txt");
 //    if (FindProduct(FileName, s) == 1) {
-//        cout << "å•†å“ä¸å­˜åœ¨ï¼Œè¯·è¿”å›žé€‰æ‹©æ·»åŠ æ–°å“" << endl;
+//        cout << "ÉÌÆ·²»´æÔÚ£¬Çë·µ»ØÑ¡ÔñÌí¼ÓÐÂÆ·" << endl;
 //        return ;
 //    }
     ifstream FileIn(FileName, ios::in);
@@ -374,17 +374,17 @@ void Merchant::ProductDiscount() {
         cout << "can't find " << FileName << " when AddProductNum." << endl;
         return ;
     }
-    cout << "è¯·è¾“å…¥æ‰“æŠ˜åŠ›åº¦ï¼Œè¯·è¾“å…¥å°äºŽ1çš„æµ®ç‚¹æ•°ï¼Œå¦‚ä¹æŠ˜è¾“å…¥0.9å³å¯ï¼š" << endl;
+    cout << "ÇëÊäÈë´òÕÛÁ¦¶È£¬ÇëÊäÈëÐ¡ÓÚ1µÄ¸¡µãÊý£¬Èç¾ÅÕÛÊäÈë0.9¼´¿É£º" << endl;
     string discount;
     getline(cin, discount);
     int x = Operation.checkDouble(discount);
     if (!x) {
-        cout << "è¾“å…¥ä¸åˆæ³•" << endl;
+        cout << "ÊäÈë²»ºÏ·¨" << endl;
         return ;
     }
     double op = Operation.Converse(discount);
     if (op > 1) {
-        cout << "è¯·è¾“å…¥å°äºŽ1çš„æµ®ç‚¹æ•°" << endl;
+        cout << "ÇëÊäÈëÐ¡ÓÚ1µÄ¸¡µãÊý" << endl;
         return ;
     }
 
@@ -405,20 +405,20 @@ void Merchant::ProductDiscount() {
     }
 
     if (!flag) {
-        cout << "æ²¡æœ‰è¯¥å“ç±»å•†å“ï¼Œdiscount ERROR." << endl;
+        cout << "Ã»ÓÐ¸ÃÆ·ÀàÉÌÆ·£¬discount ERROR." << endl;
     }
     FileIn.close();
     return ;
 }
 /**********************************************************
-å‡½æ•°ï¼šChangeProductPrice
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šä¿®æ”¹å•†å“å®šä»·ï¼ŒéžçŽ°ä»·
-è¿”å›žï¼š
+º¯Êý£ºChangeProductPrice
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£ºÐÞ¸ÄÉÌÆ·¶¨¼Û£¬·ÇÏÖ¼Û
+·µ»Ø£º
 **********************************************************/
 void Merchant::ChangeProductPrice() {
-    cout << "æ­£åœ¨ä¿®æ”¹å•†å“å®šä»·ï¼Œè¯·è¾“å…¥è¦ä¿®æ”¹çš„å•†å“åç§°" << endl;
+    cout << "ÕýÔÚÐÞ¸ÄÉÌÆ·¶¨¼Û£¬ÇëÊäÈëÒªÐÞ¸ÄµÄÉÌÆ·Ãû³Æ" << endl;
 //    getchar();
     string s; getline(cin, s);
     cout << s << endl;
@@ -426,7 +426,7 @@ void Merchant::ChangeProductPrice() {
     Operation.StrCat(FileName, getUserName());
     strcat(FileName, "_Products.txt");
     if (FindProduct(FileName, s) == 1) {
-        cout << "å•†å“ä¸å­˜åœ¨ï¼Œè¯·è¿”å›žé€‰æ‹©æ·»åŠ æ–°å“" << endl;
+        cout << "ÉÌÆ·²»´æÔÚ£¬Çë·µ»ØÑ¡ÔñÌí¼ÓÐÂÆ·" << endl;
         return ;
     }
     ifstream FileIn(FileName, ios::in);
@@ -453,41 +453,41 @@ void Merchant::ChangeProductPrice() {
         cout << "Find Error." << endl;
     } else {
         double price = Operation.Converse(temp3);
-        cout << "å½“å‰å®šä»·ä¸ºï¼š" << price << endl;
-        cout << "è¯·è¾“å…¥æ–°å®šä»·" << endl;
+        cout << "µ±Ç°¶¨¼ÛÎª£º" << price << endl;
+        cout << "ÇëÊäÈëÐÂ¶¨¼Û" << endl;
         string s;
         getline(cin, s);
         int x = Operation.checkDouble(s);
         if (!x) {
-            cout << "è¾“å…¥ä¸åˆæ³•" << endl;
+            cout << "ÊäÈë²»ºÏ·¨" << endl;
             return ;
         }
         double np = Operation.Converse(s);
         if (np >= 0) {
             Operation.ModifyLineData(FileName, line, to_string(np));
-            cout << "å®šä»·è°ƒæ•´æˆåŠŸï¼Œè¯¥å•†å“æ–°å®šä»·ä¸ºï¼š" << np << endl;
+            cout << "¶¨¼Ûµ÷Õû³É¹¦£¬¸ÃÉÌÆ·ÐÂ¶¨¼ÛÎª£º" << np << endl;
         }
         else {
-            cout << "ERROR, å®šä»·ä¸èƒ½ä¸ºè´Ÿæ•°" << endl;
+            cout << "ERROR, ¶¨¼Û²»ÄÜÎª¸ºÊý" << endl;
         }
     }
     FileIn.close();
     return ;
 }
 /**********************************************************
-å‡½æ•°ï¼šManageProduct
-å½¢å‚ï¼š
-ç±»åž‹ï¼švoid
-ä½œç”¨ï¼šæ‰“å°å•†å“ç®¡ç†ç•Œé¢ï¼Œæ”¯æŒæ·»åŠ å•†å“ï¼Œæ·»åŠ åº“å­˜ï¼Œè¿›è¡Œæ‰“æŠ˜æ´»åŠ¨
-è¿”å›žï¼š
+º¯Êý£ºManageProduct
+ÐÎ²Î£º
+ÀàÐÍ£ºvoid
+×÷ÓÃ£º´òÓ¡ÉÌÆ·¹ÜÀí½çÃæ£¬Ö§³ÖÌí¼ÓÉÌÆ·£¬Ìí¼Ó¿â´æ£¬½øÐÐ´òÕÛ»î¶¯
+·µ»Ø£º
 **********************************************************/
 void Merchant::ManageProduct() {
     cout << "*----------------------*" << endl;
-    cout << "1ï¼šæ·»åŠ æ–°å“" << endl;
-    cout << "2ï¼šè°ƒæ•´åº“å­˜" << endl;
-    cout << "3ï¼šå•†å“æ‰“æŠ˜" << endl;
-    cout << "4ï¼šæŸ¥çœ‹å•†å“" << endl;
-    cout << "5ï¼šä¿®æ”¹å®šä»·" << endl;
+    cout << "1£ºÌí¼ÓÐÂÆ·" << endl;
+    cout << "2£ºµ÷Õû¿â´æ" << endl;
+    cout << "3£ºÉÌÆ·´òÕÛ" << endl;
+    cout << "4£º²é¿´ÉÌÆ·" << endl;
+    cout << "5£ºÐÞ¸Ä¶¨¼Û" << endl;
     cout << "*----------------------*" << endl;
     int op = Operation.checkOp();
     if (op == -1) return ;
