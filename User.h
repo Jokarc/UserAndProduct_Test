@@ -24,6 +24,7 @@ public:
     virtual void getUserType() = 0;
     double getAccountBalance();
     double findBalance();
+    /*设置余额*/
     void setBalance(double x){
         accountBalance = x;
     }
@@ -31,9 +32,13 @@ public:
         UserName = a;
         PassWord = b;
     }
+    //退出登录
     int UserLogOut(int &Logged);
+    /*用户注册*/
     int UserRegister(string usrname, string password, string usrtype);
+    /*用户充值提现*/
     int UserRecharge(int kind);
+    /*改密码*/
     int UserChangePswd();
     string getUserName() {return UserName;}
 };
@@ -169,6 +174,10 @@ int User::UserRecharge(int kind) {
     if (kind == 1)  cout << "您要充值的金额为：" << val << endl;
     if (kind == -1) cout << "您要提现的金额为：" << val << endl;
     num =  getAccountBalance() + val * kind;
+    if (num < 0) {
+        cout << "ERROR, 余额不能为负数" << endl;
+        return -1;
+    }
     ifstream FileIn("../Data/UserData/UserBalance.txt", ios::in);
     if (!FileIn) {
         cout << "can't find UserBalance.txt when UserRecharge." << endl;
